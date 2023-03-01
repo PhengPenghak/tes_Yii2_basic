@@ -64,19 +64,19 @@ class SiteController extends Controller
      *
      * @return string
      */
-    // public function actionUpdate($id)
-    // {
-    //     $model = $this->findModel($id);
-    //     if ($this->request->isPost && $model->load($this->request->post()) && $model->save()) {
+    public function actionUpdate($id)
+    {
+        $model = $this->findModel($id);
+        if ($this->request->isPost && $model->load($this->request->post()) && $model->save()) {
 
-    //         Customer::update(['status' => '0']);
-    //         return $this->redirect(['index']);
-    //     }
+            Customer::update(['status' => '0']);
+            return $this->redirect(['index']);
+        }
 
-    //     return $this->render('update', [
-    //         'model' => $model,
-    //     ]);
-    // }
+        return $this->render('update', [
+            'model' => $model,
+        ]);
+    }
     public function actionIndex()
     {
 

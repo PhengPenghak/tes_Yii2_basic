@@ -4,23 +4,21 @@ namespace app\models;
 
 use yii\base\Model;
 use yii\data\ActiveDataProvider;
-use app\models\Customer;
-use PharIo\Manifest\Author;
+use app\models\City;
 
 /**
- * CustomerSearch represents the model behind the search form of `app\models\Customer`.
+ * CitySearch represents the model behind the search form of `app\models\City`.
  */
-class CustomerSearch extends Customer
+class CitySearch extends City
 {
     /**
      * {@inheritdoc}
      */
-    public $globalSearch;
     public function rules()
     {
         return [
-            [['id', 'city_id', 'status'], 'integer'],
-            [['first_name', 'last_name', 'register_date', 'globalSearch', 'img_url'], 'safe'],
+            [['id', 'country_id'], 'integer'],
+            [['city_name'], 'safe'],
         ];
     }
 
@@ -42,8 +40,7 @@ class CustomerSearch extends Customer
      */
     public function search($params)
     {
-        $query = Customer::find()
-            ->joinWith(['city', 'city.country', 'city.country.area']);
+        $query = City::find();
 
         // add conditions that should always apply here
 
@@ -61,19 +58,11 @@ class CustomerSearch extends Customer
 
         // grid filtering conditions
         $query->andFilterWhere([
-            'or',
-            ['like', 'customer.first_name', $this->globalSearch],
-            ['like', 'customer.last_name', $this->globalSearch],
-            ['like', 'city.city_name', $this->globalSearch],
-            ['like', 'country.name', $this->globalSearch],
-            ['like', 'area.name', $this->globalSearch],
-
-
+            'id' => $this->id,
+            'country_id' => $this->country_id,
         ]);
 
-        // echo "<pre>";
-        // print_r($dataProvider->query->createCommand()->getRawSql());
-        // exit;
+        $query->andFilterWhere(['like', 'city_name', $this->city_name]);
 
         return $dataProvider;
     }

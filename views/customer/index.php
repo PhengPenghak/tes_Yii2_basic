@@ -32,9 +32,16 @@ use yii\grid\GridView;
                     $country = Country::findOne($model->city->country_id);
                     return $model->city->city_name . ', ' . $model->city->country->name . ', ' . $model->city->country->area->name;
                 },
+
             ],
             'first_name',
             'last_name',
+            [
+                'class' => ActionColumn::className(),
+                'urlCreator' => function ($action, Customer $model, $key, $index, $column) {
+                    return Url::toRoute([$action, 'id' => $model->id]);
+                }
+            ],
 
         ],
     ]); ?>

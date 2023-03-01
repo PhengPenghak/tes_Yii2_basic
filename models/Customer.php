@@ -30,7 +30,10 @@ class Customer extends \yii\db\ActiveRecord
     public function rules()
     {
         return [
+
             [['status', 'city_id'], 'integer'],
+            ['img_url', 'image', 'extensions' => 'jpg, jpeg, gif, png', 'on' => ['default']],
+
             [['register_date'], 'safe'],
             [['first_name', 'last_name'], 'string', 'max' => 255],
         ];
@@ -45,13 +48,15 @@ class Customer extends \yii\db\ActiveRecord
             'id' => 'ID',
             'first_name' => 'First Name',
             'last_name' => 'Last Name',
-            'city_id' => 'City ID',
+            'city_id' => 'Location',
             'register_date' => 'Register Date',
             'status' => 'Status',
         ];
     }
+
+
     public function getCity()
     {
-        return $this->hasOne(City::className(), ['id' => 'city_id']);
+        return $this->hasOne(City::class, ['id' => 'city_id']);
     }
 }
